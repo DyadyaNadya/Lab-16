@@ -1,0 +1,89 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+typedef Node* PNode;
+
+void Add(PNode& Head, int data) {
+    PNode Temp = new Node;
+    Temp->data = data;
+    Temp->next = nullptr;
+
+    if (Head == nullptr) {
+        Head = Temp;
+        Head->next = Head; 
+    }
+    else {
+        PNode current = Head;
+        while (current->next != Head) {
+            current = current->next;
+        }
+        current->next = Temp;
+        Temp->next = Head;
+    }
+}
+
+void PrintAndDelete(PNode& Head, int k, string filename) {
+    ofstream file(filename);
+    PNode current = Head;
+
+    while (current != nullptr) {
+        for (int i = 0; i < k; i++) {
+            PNode temp = current;
+            current = current->next;
+            if (current == Head) { 
+                current = Head->next;
+            }
+            if (temp == Head) { 
+                Head = current;
+            }
+        }
+
+        file << current->data << " ";
+
+        PNode temp = current;
+        current = current->next;
+        if (current == Head) { 
+            current = Head->next;
+        }
+
+        if (temp == Head) { 
+            Head = current;
+        }
+
+        delete temp;
+
+        if (current == Head) { 
+            break;
+        }
+    }
+
+    file.close();
+}
+
+int main() {
+    setlocale(LC_ALL, "russian");
+    PNode Head = nullptr;
+
+    int n, k;
+    cout << "Введите количество элементов в списке: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        int element;
+        cout << "Введите " << i + 1 << " элемент списка: ";
+        cin >> element;
+        Add(Head, element);
+    }
+
+    cout << "Введите шаг k: ";
+    cin >> k;
+    string filename = "output.txt";
+    PrintAndDelete(Head, k, filename);
+    cout << "Элементы списка с шагом " << k << " были записаны в файл " << filename << endl;
+}
