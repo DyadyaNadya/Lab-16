@@ -2,108 +2,109 @@
 using namespace std;
 
 struct Node {
-	int x;
-	Node* next, *prev;
+    int x;
+    Node* next, * prev;
 };
 
-typedef Node *PNode;
+typedef Node* PNode;
 
-void Add(PNode& Head, PNode& Tail, int data) {
-	PNode Temp;
-	if (Head == nullptr) {
-		Head = new Node;
-		Tail = Head;
-		Head->next = nullptr;
-	}
-	else {
-		Temp = new Node;
-		Tail->next = Temp;
-		Tail = Temp;
-		Tail->next = nullptr;
-	}
-	Tail->x = data;
+void Add(PNode& Head, int data) {
+    PNode Temp;
+    if (Head == nullptr) {
+        Head = new Node;
+        Head->next = nullptr;
+        Head->prev = nullptr;
+        Head->x = data;
+    }
+    else {
+        PNode current = Head;
+        while (current->next != nullptr) {
+            current = current->next;
+        }
+        Temp = new Node;
+        current->next = Temp;
+        Temp->prev = current;
+        Temp->next = nullptr;
+        Temp->x = data;
+    }
 }
-
 
 void ShowList(PNode& Head) {
-	PNode current;
-	current = Head;
-	while (Head != nullptr) {
-		cout << current->x << " ";
-		current = current->next;
-	}
-	cout << endl;
+    PNode current = Head;
+    while (current != nullptr) {
+        cout << current->x << " ";
+        current = current->next;
+    }
+    cout << endl;
 }
-
 
 PNode InsertBeforeN(PNode& Head, int value, int N) {
-	PNode newNode = new Node;
-	newNode->x = value;	
-	PNode current = Head;
-	for (int i = 1; i < N - 1; i++) {
-		current = current->next;
-	}
+    PNode newNode = new Node;
+    newNode->x = value;
+    PNode current = Head;
+    for (int i = 1; i < N - 1; i++) {
+        current = current->next;
+    }
 
-	newNode->next = current->next;
-	newNode->prev = current;
-	current->next->prev = newNode;
-	current->next = newNode;
+    newNode->next = current->next;
+    newNode->prev = current;
+    if (current->next != nullptr) {
+        current->next->prev = newNode;
+    }
+    current->next = newNode;
 
-	cout << "Адрес вставленного элемента: " << newNode << endl;
-	return Head;
-
+    cout << "Адрес вставленного элемента: " << newNode << endl;
+    return Head;
 }
 
-
-void AddFirst(PNode& Head, PNode& Tail, int data) {
-	PNode newNode = new Node;
-	newNode->next = Head;
-	newNode->prev = nullptr;
-	if (Head) {
-		Head->prev = newNode;
-	}
-	Head = newNode;
-	if (Tail = nullptr) {
-		Tail = Head;
-	}
-	Head->x = data;
-	cout << "Ссылка на новый элемент списка: " << Head << endl;
-
+void AddFirst(PNode& Head, int data) {
+    PNode newNode = new Node;
+    newNode->next = Head;
+    newNode->prev = nullptr;
+    if (Head) {
+        Head->prev = newNode;
+    }
+    Head = newNode;
+    Head->x = data;
+    cout << "Ссылка на новый элемент списка: " << Head << endl;
 }
 
+int main() {
+    setlocale(LC_ALL, "russian");
+    PNode Head = nullptr;
 
-int main(){
-	setlocale(LC_ALL, "russian");
-	PNode Head = nullptr;
-	PNode Tail = nullptr;
-	int list;
-	cout << "Введите количество элементов в списке: ";
-	cin >> list;
-	for (int i = 0; i < list; i++) {
-		int element;
-		cout << "Введите " << i + 1 << " элемент списка ";
-		cin >> element;
-		Add(Head, Tail, element);
-	}
+    int list;
+    cout << "Введите количество элементов в списке: ";
+    cin >> list;
 
-	int N;
-	cout << "Введите номер элемента для вставки: ";
-	cin >> N;
-	int x;
-	if (N == 1) {
-		int chislo;
-		cout << "Введите значение для вставки: ";
-		cin >> chislo;
-		AddFirst(Head, Tail, chislo);
-		cout << "Ссылка на голову списка: " << Head << endl;
-		cout << "Список после вставки элемента: ";
-		ShowList(Head);
-	}
-	cout << "Введите значение для вставки: ";
-	cin >> x;
-	InsertBeforeN(Head, x, N);
-	cout << "Ссылка на голову списка: " << Head << endl;
-	cout << "Список после вставки элемента: ";
-	ShowList(Head);
+    for (int i = 0; i < list; i++) {
+        int element;
+        cout << "Введите " << i + 1 << " элемент списка: ";
+        cin >> element;
+        Add(Head, element);
+    }
+
+    int N;
+    cout << "Введите номер элемента для вставки: ";
+    cin >> N;
+
+    if (N == 1) {
+        int chislo;
+        cout << "Введите значение для вставки: ";
+        cin >> chislo;
+        AddFirst(Head, chislo);
+        cout << "Ссылка на голову списка: " << Head << endl;
+        cout << "Список после вставки элемента: ";
+        ShowList(Head);
+    }
+    else {
+        int x;
+        cout << "Введите значение для вставки: ";
+        cin >> x;
+        InsertBeforeN(Head, x, N);
+        cout << "Ссылка на голову списка: " << Head << endl;
+        cout << "Список после вставки элемента: ";
+        ShowList(Head);
+    }
 
 }
