@@ -1,1 +1,76 @@
-
+//#include <iostream>
+//#include <fstream>
+//#include <vector>
+//using namespace std;
+//
+//struct Node {
+//    Node* prev;
+//    Node* next;
+//    int x;
+//};
+//
+//typedef Node* PNode;
+//
+//void Add(PNode& head, int data) {
+//    PNode temp = new Node;
+//    temp->x = data;
+//    temp->prev = nullptr;
+//    temp->next = nullptr;
+//
+//    if (head == nullptr) {
+//        head = temp;
+//    }
+//    else {
+//        PNode current = head;
+//        while (current->next != nullptr) {
+//            current = current->next;
+//        }
+//        current->next = temp;
+//        temp->prev = current;
+//    }
+//}
+//
+//void Back(PNode head, vector<int>& vec) {
+//    PNode current = head;
+//    while (current != nullptr) {
+//        int element = current->x;
+//        /*vec.insert(vec.begin(), current->x);*/
+//        vec.push_back(element);
+//        current = current->next;
+//    }
+//}
+//
+//int main() {
+//    setlocale(LC_ALL, "russian");
+//    PNode head = nullptr;
+//    cout << "Введите количество элементов списка: ";
+//    int N;
+//    cin >> N;
+//    for (int i = 0; i < N; i++) {
+//        int elem;
+//        cout << "Введите " << i + 1 << " элемент списка: ";
+//        cin >> elem;
+//        Add(head, elem);
+//    }
+//
+//    string filename;
+//    cout << "Введите название для создания текстового файла: ";
+//    cin >> filename;
+//
+//    ofstream file(filename);
+//
+//    vector<int> values;
+//    Back(head, values);
+//    vector<int> reversedvalues;
+//    for (int i = values.size() - 1; i >= 0; i--) {
+//        reversedvalues.push_back(values[i]);
+//    }
+//    for (int i = 0; i < reversedvalues.size(); i++) {
+//        file << reversedvalues[i] << " ";
+//    }
+//
+//    file.close();
+//
+//    cout << "Вывод закончен" << endl;
+//
+//}
